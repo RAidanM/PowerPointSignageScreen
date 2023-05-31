@@ -11,14 +11,19 @@ $ErrorActionPreference = 'SilentlyContinue'
 #defining variables
 $root = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
 
+#import log
+. $root"\Scripts\logFunctions.ps1"
+
 #script start
 #kill current running powerpoint
 Stop-Process -Name POWERPNT -Force
 Start-Sleep -Milliseconds 100
 
 #remove old show
+WriteLog "Removing old show"
 Remove-Item $root"\CurrentShow.pps"
 
+WriteLog "Starting Show"
 try {
     #make new show
     Copy-Item $root"\Today.pptx" -Destination $root"\CurrentShow.pps"
