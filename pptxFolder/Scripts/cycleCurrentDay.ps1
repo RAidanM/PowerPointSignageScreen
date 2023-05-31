@@ -5,19 +5,27 @@ This script:
     Replaces with the a new show from the current day
 #>
 
+#setting error action preference
+$ErrorActionPreference = 'SilentlyContinue'
+
 #defining variables
-$root = "C:\Path\to\pptxFolder"
+$root = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
 $date = Get-Date -Format "dddd"
 $yesterday = (Get-Date).AddDays(-1).ToString('dddd MM-dd-yyyy')
 
 #script start
 #archive yesterday show
+
 Copy-Item $root"\Today.pptx" -Destination $root"\ARCHIVE\"$yesterday".pptx"
 Start-Sleep -Seconds 1
 
-#remove yesterday show
 Remove-Item $root"\Today.pptx"
 Start-Sleep -Seconds 1
 
 #select and copy new show
-Copy-Item $root"\"$date"\"$date".pptx" -Destination $root"\Today.pptx"
+Try {
+    Copy-Item $root"\Days\"$date".pptx" -Destination $root"\Today.pptx"
+}
+Catch {
+    Write-Host "Unable to find path to today's show"
+}

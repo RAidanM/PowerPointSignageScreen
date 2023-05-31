@@ -6,7 +6,7 @@ This script:
         if change, then it runs the rebootSlideshow.ps1 script
 #>
 
-$sharedFolderPath = "C:\Path\to\pptxFolder"
+$sharedFolderPath = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
 $filePath = "$sharedFolderPath\Today.pptx"
 $scriptPath = "$sharedFolderPath\Scripts\rebootSlideshow.ps1"
 $previousHash = ""
@@ -21,7 +21,7 @@ while ($true) {
     # Compare the current hash with the previous hash
     if ($currentHash -ne $previousHash) {
         #executes when file changed
-        Write-Host "File has changed!"
+        Write-Host "Today.pptx has been changed"
         & $scriptPath
     }
 

@@ -5,8 +5,11 @@ This script:
     Often used when the current show has been modified
 #>
 
+#setting error action preference
+$ErrorActionPreference = 'SilentlyContinue'
+
 #defining variables
-$root = "C:\Path\to\pptxFolder"
+$root = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
 
 #script start
 #kill current running powerpoint
@@ -16,8 +19,13 @@ Start-Sleep -Milliseconds 100
 #remove old show
 Remove-Item $root"\CurrentShow.pps"
 
-#make new show
-Copy-Item $root"\Today.pptx" -Destination $root"\CurrentShow.pps"
+try {
+    #make new show
+    Copy-Item $root"\Today.pptx" -Destination $root"\CurrentShow.pps"
 
-#start new show
-Start-Process $root"\CurrentShow.pps"
+    #start new show
+    Start-Process $root"\CurrentShow.pps"
+}
+catch {
+    Write-Host "Unable to start show"
+}
