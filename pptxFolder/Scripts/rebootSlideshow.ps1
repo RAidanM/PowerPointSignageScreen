@@ -20,8 +20,10 @@ Stop-Process -Name POWERPNT -Force
 Start-Sleep -Milliseconds 100
 
 #remove old show
-WriteLog "Removing old show"
-Remove-Item $root"\CurrentShow.pps"
+if (Test-Path -Path $root"\CurrentShow.pps" -PathType Leaf) {
+    WriteLog "Removing old show"
+    Remove-Item $root"\CurrentShow.pps"
+}
 
 WriteLog "Starting Show"
 try {

@@ -5,28 +5,35 @@ This script:
     Replaces with the a new show from the current day
 #>
 
-#define root
+#defining variables
 $root = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
-
-#import logging
-. $root"\Scripts\logFunctions.ps1"
+$date = Get-Date -Format "dddd"
+$yesterday = (Get-Date).AddDays(-1).ToString('dddd MM-dd-yyyy')
 
 #setting error action preference
 $ErrorActionPreference = 'SilentlyContinue'
 
-#defining variables
-$date = Get-Date -Format "dddd"
-$yesterday = (Get-Date).AddDays(-1).ToString('dddd MM-dd-yyyy')
+#import logging
+. $root"\Scripts\logFunctions.ps1"
 
-#script start
 #archive yesterday show
-WriteLog "Archiving yesterday show"
+$todayPath = $root+"\Today.pptx"
 
-Copy-Item $root"\Today.pptx" -Destination $root"\ARCHIVE\"$yesterday".pptx"
-Start-Sleep -Seconds 1
+if(Test-Path -Path $todayPath -PathType Leaf){
+    WriteLog "Archiving yesterday show"
 
-Remove-Item $root"\Today.pptx"
-Start-Sleep -Seconds 1
+    $yesterday = (Get-Date).AddDays(-1).ToString('dddd MM-dd-yyyy')
+
+    Copy-Item $todayPath -Destination $root"\ARCHIVE\"$yesterday".pptx"
+    Start-Sleep -Seconds 1
+
+    Remove-Item $todayPath
+    Start-Sleep -Seconds 1
+}
+else{
+    WriteLog "Can't find previous show"
+}
+
 
 #select and copy new show
 WriteLog "Selecting and copying new show"
@@ -35,5 +42,5 @@ Try {
     Copy-Item $root"\Days\"$date".pptx" -Destination $root"\Today.pptx"
 }
 Catch {
-    Write-Host "Unable to find path to today's show"
+    WriteLog "Unable to find path to today's show"
 }
