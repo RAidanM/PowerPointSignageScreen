@@ -1,38 +1,37 @@
-<#
-This script should be run everytime a change is made to the Today.pptx file
-This script:
-    Restarts the current show
-    Often used when the current show has been modified
-#>
-
 #setting error action preference
 $ErrorActionPreference = 'SilentlyContinue'
-
 #defining variables
 $root = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
-
 #import log
 . $root"\Scripts\logFunctions.ps1"
 
-#script start
+WriteLog ">>> rebootSlideshow.ps1"
+
 #kill current running powerpoint
-Stop-Process -Name POWERPNT -Force
+WriteLog "Killing active show"
+get-process powerpnt |stop-process
 Start-Sleep -Milliseconds 100
 
 #remove old show
+WriteLog "Attempting to remove old CurrentShow.pps"
 if (Test-Path -Path $root"\CurrentShow.pps" -PathType Leaf) {
-    WriteLog "Removing old show"
     Remove-Item $root"\CurrentShow.pps"
+    WriteLog "SUCCESS"
+}
+else{
+    WriteLog "!!! CurrentShow.pps does not exist"
 }
 
-WriteLog "Starting Show"
-try {
-    #make new show
+WriteLog "Attempting to set new CurrentShow.pps from Today.pptx"
+if (Test-Path -Path $root"\Today.pptx" -PathType Leaf) {
     Copy-Item $root"\Today.pptx" -Destination $root"\CurrentShow.pps"
+    WriteLog "SUCCESS"
+}
+else{
+    WriteLog "!!! Today.pptx does not exist"
+}
 
-    #start new show
-    Start-Process $root"\CurrentShow.pps"
-}
-catch {
-    Write-Host "Unable to start show"
-}
+WriteLog "Starting Currentshow.pps"
+Start-Process $root"\CurrentShow.pps"
+
+WriteLog "<<< rebootSlideshow.ps1"

@@ -1,10 +1,3 @@
-<#
-This script should be run once per day after midnight
-This script:
-    Archives previous show
-    Replaces with the a new show from the current day
-#>
-
 #defining variables
 $root = $MyInvocation.MyCommand.Path -replace ("\\Scripts\\"+$MyInvocation.MyCommand.Name),""
 $date = Get-Date -Format "dddd"
@@ -19,28 +12,32 @@ $ErrorActionPreference = 'SilentlyContinue'
 #archive yesterday show
 $todayPath = $root+"\Today.pptx"
 
+WriteLog ">>> cycleCurrentDay.ps1"
+
+WriteLog "Archiving yesterday show"
 if(Test-Path -Path $todayPath -PathType Leaf){
-    WriteLog "Archiving yesterday show"
 
     $yesterday = (Get-Date).AddDays(-1).ToString('dddd MM-dd-yyyy')
 
     Copy-Item $todayPath -Destination $root"\ARCHIVE\"$yesterday".pptx"
-    Start-Sleep -Seconds 1
+    Start-Sleep -Milliseconds 100
+    
 
     Remove-Item $todayPath
-    Start-Sleep -Seconds 1
+    Start-Sleep -Milliseconds 100
+    WriteLog "SUCCESS"
 }
 else{
-    WriteLog "Can't find previous show"
+    WriteLog "!!! Can't find yesterday's show"
 }
 
-
-#select and copy new show
-WriteLog "Selecting and copying new show"
-
-Try {
+WriteLog "Attempting to selectand copy new show"
+if (Test-Path -Path $root"\Days\"$date".pptx" -PathType Leaf) {
     Copy-Item $root"\Days\"$date".pptx" -Destination $root"\Today.pptx"
+    WriteLog "SUCCESS"
 }
-Catch {
-    WriteLog "Unable to find path to today's show"
+else {
+    WriteLog "!!! Unable to find path to today's show"
 }
+
+WriteLog "<<< cycleCurrentDay.ps1"
