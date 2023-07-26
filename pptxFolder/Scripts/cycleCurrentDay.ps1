@@ -13,6 +13,7 @@ $ErrorActionPreference = 'SilentlyContinue'
 $todayPath = $root+"\Today.pptx"
 
 WriteLog ">>> cycleCurrentDay.ps1"
+WriteLog "Today is $date"
 
 WriteLog "Archiving yesterday show"
 if(Test-Path -Path $todayPath -PathType Leaf){
@@ -31,7 +32,7 @@ else{
     WriteLog "!!! Can't find yesterday's show"
 }
 
-WriteLog "Attempting to selectand copy new show"
+WriteLog "Attempting to select and copy new show"
 if (Test-Path -Path $root"\Days\"$date".pptx" -PathType Leaf) {
     Copy-Item $root"\Days\"$date".pptx" -Destination $root"\Today.pptx"
     WriteLog "SUCCESS"
