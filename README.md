@@ -2,9 +2,9 @@
 
 The goal of this project is to turn a dedicated PC into a presentation screen using PowerPoint. This project was setup to be used on a shared folder network.
 
-It uses PowerShell, PowerPoint, and optionally a shared folder to modify the fold
+It uses PowerShell, PowerPoint, and optionally a shared folder to modify the folder remotely.
 
-⭐ FUlly automated
+⭐ Fully automated
 
 ⭐ Seperate presentations for each day of the week
 
@@ -30,11 +30,11 @@ This should be the end of setup. Close everything and let the task start up the 
 
 You can change the PowerPoints inside of the *\Days* folder to whater show you want to appear for each of that day. 
 
-EG: Whatever you put as *Wednesday.ppts* will show every Wednesday until you change it's contents again.
+EG: Whatever you put as *Wednesday.pptx* will show every Wednesday until you change it's contents again.
 
-To change the show that is currently on the screen, modfiy *pptxFolder\Today.pptx". Once you have modified the file, it will close the current show automatically and then reopen your now modified show.
+To change the show that is currently on the screen, modfiy *pptxFolder\Today.pptx*. Once you have modified the file, it will close the current show automatically and then reopen your now modified show.
 
-NOTE: It will NOT change the original day folder show. EG: Lets say it is a Friday and you need to add a birthday slide. You would open *Today.pptx* and add your slide and save it. Now, your slide would show on the screen for the day however it would not change your orignal Firday.pptx file.
+NOTE: It will NOT change the original day folder show. EG: Lets say it is a Friday and you need to add a birthday slide. You would open *Today.pptx* and add your slide and save it. Now, your slide would show on the screen for the day however it would not change your orignal *Friday.pptx* file.
 
 If you want to see previous shows from past days, all old shows are moved to *pptxFolder\ARCHIVE* and labeled with the date they are from.
 
