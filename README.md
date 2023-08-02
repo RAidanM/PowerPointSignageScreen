@@ -42,5 +42,4 @@ Log files for each action of the program are stored inside of *pptxFolder\LOGS* 
 
 ## Support
 
-If you have any questions, comments, and/or concerns please reach out to me at my email:
-r.adian.mealey@gmail.com
+If you have any questions, comments, and/or concerns feel free to make an issue on the repository.
