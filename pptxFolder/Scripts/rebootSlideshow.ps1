@@ -22,6 +22,7 @@ else{
     WriteLog "!!! CurrentShow.pps does not exist"
 }
 
+#creating show
 WriteLog "Attempting to set new CurrentShow.pps from Today.pptx"
 if (Test-Path -Path $root"\Today.pptx" -PathType Leaf) {
     Copy-Item $root"\Today.pptx" -Destination $root"\CurrentShow.pps"
@@ -31,6 +32,7 @@ else{
     WriteLog "!!! Today.pptx does not exist"
 }
 
+#running the new show
 WriteLog "Starting Currentshow.pps"
 Start-Process $root"\CurrentShow.pps"
 

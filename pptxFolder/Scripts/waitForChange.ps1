@@ -15,7 +15,7 @@ while ($true) {
     #get the current hash of the file
     $currentHash = Get-FileHash -Path $filePath -Algorithm MD5 | Select-Object -ExpandProperty Hash
 
-    # Compare the current hash with the previous hash
+    # compare the current hash with the previous hash
     if ($currentHash -ne $previousHash) {
         #executes when file changed
         WriteLog "File has been changed"
